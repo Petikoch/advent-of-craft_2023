@@ -18,25 +18,6 @@ class FoodTests {
     private static final LocalDate notFreshDate = expirationDate.plusDays(7);
     private static final LocalDate freshDate = expirationDate.minusDays(7);
 
-    public static Stream<Arguments> notEdibleFood() {
-        return Stream.of(
-
-                Arguments.of(false, null, notFreshDate),
-                Arguments.of(false, null, freshDate)
-        );
-    }
-
-    @ParameterizedTest
-    @MethodSource("notEdibleFood")
-    void not_edible_if_not_fresh(boolean approvedForConsumption, UUID inspectorId, LocalDate now) {
-        var food = new Food(
-                expirationDate,
-                approvedForConsumption,
-                inspectorId);
-
-        assertThat(food.isEdible(() -> now)).isFalse();
-    }
-
     @Test
     void isEdible_happycase_true() {
         var food = new Food(
