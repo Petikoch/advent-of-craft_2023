@@ -40,7 +40,7 @@ class FoodTests {
     }
 
     @Test
-    void edible_food() {
+    void isEdible_happycase_true() {
         var food = new Food(
                 expirationDate,
                 true,
