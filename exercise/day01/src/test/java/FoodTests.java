@@ -12,7 +12,7 @@ import static java.time.LocalDate.of;
 import static java.util.UUID.randomUUID;
 import static org.assertj.core.api.Assertions.assertThat;
 
-class EdibleTests {
+class FoodTests {
     private static final LocalDate expirationDate = of(2023, 12, 1);
     private static final UUID inspector = randomUUID();
     private static final LocalDate notFreshDate = expirationDate.plusDays(7);
