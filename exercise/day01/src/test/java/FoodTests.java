@@ -20,7 +20,7 @@ class FoodTests {
 
     public static Stream<Arguments> notEdibleFood() {
         return Stream.of(
-                Arguments.of(true, null, freshDate),
+
                 Arguments.of(false, null, notFreshDate),
                 Arguments.of(false, null, freshDate)
         );
@@ -63,6 +63,16 @@ class FoodTests {
                 expirationDate,
                 false,
                 inspector);
+
+        assertThat(food.isEdible(() -> freshDate)).isFalse();
+    }
+
+    @Test
+    void isEdible_noInspectorId_false() {
+        var food = new Food(
+                expirationDate,
+                true,
+                null);
 
         assertThat(food.isEdible(() -> freshDate)).isFalse();
     }
