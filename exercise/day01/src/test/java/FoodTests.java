@@ -20,8 +20,6 @@ class FoodTests {
 
     public static Stream<Arguments> notEdibleFood() {
         return Stream.of(
-                Arguments.of(true, inspector, notFreshDate),
-                Arguments.of(false, inspector, freshDate),
                 Arguments.of(true, null, freshDate),
                 Arguments.of(false, null, notFreshDate),
                 Arguments.of(false, null, freshDate)
@@ -47,5 +45,25 @@ class FoodTests {
                 inspector);
 
         assertThat(food.isEdible(() -> freshDate)).isTrue();
+    }
+
+    @Test
+    void isEdible_dateExpired_false() {
+        var food = new Food(
+                expirationDate,
+                true,
+                inspector);
+
+        assertThat(food.isEdible(() -> notFreshDate)).isFalse();
+    }
+
+    @Test
+    void isEdible_notApprovedForConsumption_false() {
+        var food = new Food(
+                expirationDate,
+                false,
+                inspector);
+
+        assertThat(food.isEdible(() -> freshDate)).isFalse();
     }
 }
