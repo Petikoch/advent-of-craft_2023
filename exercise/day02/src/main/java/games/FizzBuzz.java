@@ -9,22 +9,13 @@ public class FizzBuzz {
     }
 
     public static String convert(Integer input) throws OutOfRangeException {
-        if (input <= 0) {
-            throw new OutOfRangeException();
-        }
-        if (input > 100) {
-            throw new OutOfRangeException();
-        }
+        if (input <= 0) throw new OutOfRangeException();
+        if (input > 100) throw new OutOfRangeException();
 
-        if (isFizz(input) && isBuzz(input)) {
-            return FIZZ + BUZZ;
-        }
-        if (isFizz(input)) {
-            return FIZZ;
-        }
-        if (isBuzz(input)) {
-            return BUZZ;
-        }
+        if (isFizz(input) && isBuzz(input)) return FIZZ + BUZZ;
+        if (isFizz(input)) return FIZZ;
+        if (isBuzz(input)) return BUZZ;
+
         return input.toString();
     }
 
