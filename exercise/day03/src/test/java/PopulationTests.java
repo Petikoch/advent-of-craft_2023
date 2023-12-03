@@ -29,10 +29,17 @@ class PopulationTests {
                     .addPet(PetType.HAMSTER, "Wuzzy", 2),
             new Person("Glenn", "Quagmire")
     );
+    public static final Comparator<Person> COMPARATOR_BY_YOUNGEST_PET =
+            Comparator.comparingInt(person -> person.pets().stream()
+                    .mapToInt(Pet::age)
+                    .min()
+                    .orElse(Integer.MAX_VALUE));
 
     @Test
     void whoOwnsTheYoungestPet() {
-        var filtered = POPULATION.stream().min(Comparator.comparingInt(person -> person.pets().stream().mapToInt(Pet::age).min().orElse(Integer.MAX_VALUE))).orElse(null);
+        var filtered = POPULATION.stream()
+                .min(COMPARATOR_BY_YOUNGEST_PET)
+                .orElse(null);
 
         assert filtered != null;
         assertThat(filtered.firstName()).isEqualTo("Lois");
