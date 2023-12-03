@@ -9,14 +9,17 @@ public class FizzBuzz {
     }
 
     public static String convert(Integer input) throws OutOfRangeException {
-        if (input <= 0) throw new OutOfRangeException();
-        if (input > 100) throw new OutOfRangeException();
+        if (isOutOfRange(input)) throw new OutOfRangeException(input);
 
         if (isFizz(input) && isBuzz(input)) return FIZZ + BUZZ;
         if (isFizz(input)) return FIZZ;
         if (isBuzz(input)) return BUZZ;
 
         return input.toString();
+    }
+
+    private static boolean isOutOfRange(Integer input) {
+        return input <= 0 || input > 100;
     }
 
     private static boolean isFizz(Integer input) {
