@@ -1,7 +1,6 @@
 import org.junit.jupiter.api.Test;
-import people.Person;
-import people.PetType;
-import people.Population;
+import people.*;
+import people.Pet.*;
 
 import java.util.List;
 
@@ -11,25 +10,25 @@ class PopulationTests {
 
     @Test
     void whoOwnsTheYoungestPet() {
-        Person lois = new Person("Lois", "Griffin")
-                .addPet(PetType.SNAKE, "Serpy", 1);
+        Person lois = new Person("Lois", "Griffin", List.of(
+                new Pet.Snake("Serpy", 1)));
         Population testPopulation = new Population(
                 List.of(
-                        new Person("Peter", "Griffin")
-                                .addPet(PetType.CAT, "Tabby", 2),
-                        new Person("Stewie", "Griffin")
-                                .addPet(PetType.CAT, "Dolly", 3)
-                                .addPet(PetType.DOG, "Brian", 9),
-                        new Person("Joe", "Swanson")
-                                .addPet(PetType.DOG, "Spike", 4),
+                        new Person("Peter", "Griffin", List.of(
+                                new Cat("Tabby", 2))),
+                        new Person("Stewie", "Griffin", List.of(
+                                new Cat("Dolly", 3),
+                                new Dog("Brian", 9))),
+                        new Person("Joe", "Swanson", List.of(
+                                new Dog("Spike", 4))),
                         lois,
-                        new Person("Meg", "Griffin")
-                                .addPet(PetType.BIRD, "Tweety", 1),
-                        new Person("Chris", "Griffin")
-                                .addPet(PetType.TURTLE, "Speedy", 4),
-                        new Person("Cleveland", "Brown")
-                                .addPet(PetType.HAMSTER, "Fuzzy", 1)
-                                .addPet(PetType.HAMSTER, "Wuzzy", 2),
+                        new Person("Meg", "Griffin", List.of(
+                                new Bird("Tweety", 1))),
+                        new Person("Chris", "Griffin", List.of(
+                                new Turtle("Speedy", 4))),
+                        new Person("Cleveland", "Brown", List.of(
+                                new Hamster("Fuzzy", 1),
+                                new Hamster("Wuzzy", 2))),
                         new Person("Glenn", "Quagmire")
                 )
         );

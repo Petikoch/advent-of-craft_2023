@@ -8,8 +8,8 @@ public record Person(String firstName, String lastName, List<Pet> pets) {
         this(firstName, lastName, new ArrayList<>());
     }
 
-    public Person addPet(PetType petType, String name, int age) {
-        pets.add(new Pet(petType, name, age));
+    public Person addPet(Pet pet) {
+        pets.add(pet);
         return this;
     }
 }
