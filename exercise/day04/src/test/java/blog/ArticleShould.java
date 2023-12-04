@@ -42,15 +42,17 @@ class ArticleShould {
     }
 
     @Test
-    void it_should_throw_an_exception_when_adding_existing_comment() throws CommentAlreadyExistException {
+    void throwExceptionWhenAddingSameComment() throws CommentAlreadyExistException {
         var article = new Article(
                 "Lorem Ipsum",
                 "consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore"
         );
-        article.addComment("Amazing article !!!", "Pablo Escobar");
+        String commentText = "Amazing article !!!";
+        String commentAuthor = "Pablo Escobar";
+        article.addComment(commentText, commentAuthor);
 
-        assertThatThrownBy(() -> {
-            article.addComment("Amazing article !!!", "Pablo Escobar");
-        }).isInstanceOf(CommentAlreadyExistException.class);
+        assertThatThrownBy(
+                () -> article.addComment(commentText, commentAuthor)
+        ).isInstanceOf(CommentAlreadyExistException.class);
     }
 }
