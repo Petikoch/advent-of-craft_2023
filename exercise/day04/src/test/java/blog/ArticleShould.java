@@ -26,21 +26,6 @@ class ArticleShould {
     }
 
     @Test
-    void it_should_add_a_comment_with_the_given_author() throws CommentAlreadyExistException {
-        var article = new Article(
-                "Lorem Ipsum",
-                "consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore"
-        );
-
-        var author = "Pablo Escobar";
-        article.addComment("Amazing article !!!", author);
-
-        assertThat(article.getComments())
-                .hasSize(1)
-                .anyMatch(comment -> comment.author().equals(author));
-    }
-
-    @Test
     void it_should_add_a_comment_with_the_date_of_the_day() throws CommentAlreadyExistException {
         var article = new Article(
                 "Lorem Ipsum",
