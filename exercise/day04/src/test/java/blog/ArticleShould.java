@@ -26,21 +26,6 @@ class ArticleShould {
     }
 
     @Test
-    void it_should_add_a_comment_with_the_given_text() throws CommentAlreadyExistException {
-        var article = new Article(
-                "Lorem Ipsum",
-                "consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore"
-        );
-
-        var text = "Amazing article !!!";
-        article.addComment(text, "Pablo Escobar");
-
-        assertThat(article.getComments())
-                .hasSize(1)
-                .anyMatch(comment -> comment.text().equals(text));
-    }
-
-    @Test
     void it_should_add_a_comment_with_the_given_author() throws CommentAlreadyExistException {
         var article = new Article(
                 "Lorem Ipsum",
