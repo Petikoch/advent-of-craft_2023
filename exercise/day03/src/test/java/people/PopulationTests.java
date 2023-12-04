@@ -1,5 +1,6 @@
+package people;
+
 import org.junit.jupiter.api.Test;
-import people.*;
 import people.Pet.*;
 
 import java.util.List;
