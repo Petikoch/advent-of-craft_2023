@@ -9,50 +9,41 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 class ArticleShould {
 
+    public static final Article TESTEE = new Article(
+            "Lorem Ipsum",
+            "consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore"
+    );
+
+    public static final String COMMENT_TEXT = "Amazing article !!!";
+    public static final String COMMENT_AUTHOR = "Pablo Escobar";
+
     @Test
     void addValidComment() throws CommentAlreadyExistException {
-        var article = new Article(
-                "Lorem Ipsum",
-                "consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore"
-        );
-        assertThat(article.getComments()).hasSize(0);
+        assertThat(TESTEE.getComments()).hasSize(0);
 
-        String commentText = "Amazing article !!!";
-        String commentAuthor = "Pablo Escobar";
-        article.addComment(commentText, commentAuthor);
+        TESTEE.addComment(COMMENT_TEXT, COMMENT_AUTHOR);
 
-        assertThat(article.getComments()).hasSize(1);
-        var actualComment = article.getComments().getFirst();
-        assertThat(actualComment.text()).isEqualTo(commentText);
-        assertThat(actualComment.author()).isEqualTo(commentAuthor);
+        assertThat(TESTEE.getComments()).hasSize(1);
+        var actualComment = TESTEE.getComments().getFirst();
+        assertThat(actualComment.text()).isEqualTo(COMMENT_TEXT);
+        assertThat(actualComment.author()).isEqualTo(COMMENT_AUTHOR);
     }
 
     @Test
     void addCommentWithDateOfTodayByDefault() throws CommentAlreadyExistException {
-        var article = new Article(
-                "Lorem Ipsum",
-                "consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore"
-        );
+        TESTEE.addComment("Amazing article !!!", "Pablo Escobar");
 
-        article.addComment("Amazing article !!!", "Pablo Escobar");
-
-        assertThat(article.getComments()).hasSize(1);
-        var actualComment = article.getComments().getFirst();
+        assertThat(TESTEE.getComments()).hasSize(1);
+        var actualComment = TESTEE.getComments().getFirst();
         assertThat(actualComment.creationDate()).isEqualTo(LocalDate.now()); // flaky at midnight ⚡️
     }
 
     @Test
     void throwExceptionWhenAddingSameComment() throws CommentAlreadyExistException {
-        var article = new Article(
-                "Lorem Ipsum",
-                "consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore"
-        );
-        String commentText = "Amazing article !!!";
-        String commentAuthor = "Pablo Escobar";
-        article.addComment(commentText, commentAuthor);
+        TESTEE.addComment(COMMENT_TEXT, COMMENT_AUTHOR);
 
         assertThatThrownBy(
-                () -> article.addComment(commentText, commentAuthor)
+                () -> TESTEE.addComment(COMMENT_TEXT, COMMENT_AUTHOR)
         ).isInstanceOf(CommentAlreadyExistException.class);
     }
 }
