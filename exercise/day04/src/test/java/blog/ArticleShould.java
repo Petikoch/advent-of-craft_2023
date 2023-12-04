@@ -2,6 +2,8 @@ package blog;
 
 import org.junit.jupiter.api.Test;
 
+import java.time.LocalDate;
+
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
@@ -26,13 +28,17 @@ class ArticleShould {
     }
 
     @Test
-    void it_should_add_a_comment_with_the_date_of_the_day() throws CommentAlreadyExistException {
+    void addCommentWithDateOfTodayByDefault() throws CommentAlreadyExistException {
         var article = new Article(
                 "Lorem Ipsum",
                 "consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore"
         );
 
         article.addComment("Amazing article !!!", "Pablo Escobar");
+
+        assertThat(article.getComments()).hasSize(1);
+        var actualComment = article.getComments().getFirst();
+        assertThat(actualComment.creationDate()).isEqualTo(LocalDate.now()); // flaky at midnight ⚡️
     }
 
     @Test
