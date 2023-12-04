@@ -5,15 +5,24 @@ import org.junit.jupiter.api.Test;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-class ArticleTests {
+class ArticleShould {
+
     @Test
-    void it_should_add_valid_comment() throws CommentAlreadyExistException {
+    void addValidComment() throws CommentAlreadyExistException {
         var article = new Article(
                 "Lorem Ipsum",
                 "consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore"
         );
+        assertThat(article.getComments()).hasSize(0);
 
-        article.addComment("Amazing article !!!", "Pablo Escobar");
+        String commentText = "Amazing article !!!";
+        String commentAuthor = "Pablo Escobar";
+        article.addComment(commentText, commentAuthor);
+
+        assertThat(article.getComments()).hasSize(1);
+        var actualComment = article.getComments().getFirst();
+        assertThat(actualComment.text()).isEqualTo(commentText);
+        assertThat(actualComment.author()).isEqualTo(commentAuthor);
     }
 
     @Test
