@@ -6,8 +6,8 @@ import people.PetType;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
-import static java.lang.String.format;
 import static java.lang.System.lineSeparator;
 import static java.util.Comparator.comparingInt;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -44,34 +44,41 @@ class PopulationTests {
 
         assertThat(response)
                 .hasToString("Peter Griffin who owns : Tabby " + lineSeparator() +
-                        "Stewie Griffin who owns : Dolly Brian " + lineSeparator() +
-                        "Joe Swanson who owns : Spike " + lineSeparator() +
-                        "Lois Griffin who owns : Serpy " + lineSeparator() +
-                        "Meg Griffin who owns : Tweety " + lineSeparator() +
-                        "Chris Griffin who owns : Speedy " + lineSeparator() +
-                        "Cleveland Brown who owns : Fuzzy Wuzzy " + lineSeparator() +
-                        "Glenn Quagmire");
+                             "Stewie Griffin who owns : Dolly Brian " + lineSeparator() +
+                             "Joe Swanson who owns : Spike " + lineSeparator() +
+                             "Lois Griffin who owns : Serpy " + lineSeparator() +
+                             "Meg Griffin who owns : Tweety " + lineSeparator() +
+                             "Chris Griffin who owns : Speedy " + lineSeparator() +
+                             "Cleveland Brown who owns : Fuzzy Wuzzy " + lineSeparator() +
+                             "Glenn Quagmire");
     }
 
-    private static StringBuilder formatPopulation() {
-        final var response = new StringBuilder();
+    private static String formatPopulation() {
+        return population.stream()
+                .map(PopulationTests::formatPerson)
+                .collect(Collectors.joining(lineSeparator()));
+    }
 
-        for (var person : population) {
-            response.append(format("%s %s", person.firstName(), person.lastName()));
+    private static String formatPerson(Person person) {
+        return formatPersonFullName(person) + formatPersonPets(person);
+    }
 
-            if (!person.pets().isEmpty()) {
-                response.append(" who owns : ");
-            }
+    private static String formatPersonFullName(Person person) {
+        return person.firstName() + " " + person.lastName();
+    }
 
-            for (var pet : person.pets()) {
-                response.append(pet.name()).append(" ");
-            }
-
-            if (!population.getLast().equals(person)) {
-                response.append(lineSeparator());
-            }
+    private static String formatPersonPets(Person person) {
+        var result = "";
+        if (!person.pets().isEmpty()) {
+            result += " who owns : ";
+            result += person
+                    .pets()
+                    .stream()
+                    .map(Pet::name)
+                    .collect(Collectors.joining(" "));
+            result += " ";
         }
-        return response;
+        return result;
     }
 
     @Test
