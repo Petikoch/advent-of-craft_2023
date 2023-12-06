@@ -58,7 +58,7 @@ class FizzBuzzTests {
             "0",
             "101",
     })
-    void failsWhenOutOfRange(int input) throws OutOfRangeException {
+    void failsWhenOutOfRange(int input) {
         assertThatThrownBy(() -> FizzBuzz.convert(input))
                 .isInstanceOf(OutOfRangeException.class);
     }
