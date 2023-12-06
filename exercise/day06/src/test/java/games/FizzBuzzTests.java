@@ -10,56 +10,39 @@ class FizzBuzzTests {
 
     @ParameterizedTest
     @CsvSource({
+            "-1, OutOfRangeException",
+            "0, OutOfRangeException",
             "1, 1",
             "2, 2",
-            "4, 4",
-            "7, 7",
-            "98, 98",
-    })
-    void numbers(int input, String expectedOutput) throws OutOfRangeException {
-        assertThat(FizzBuzz.convert(input)).isEqualTo(expectedOutput);
-    }
-
-    @ParameterizedTest
-    @CsvSource({
             "3, Fizz",
-            "6, Fizz",
-            "9, Fizz",
-            "99, Fizz",
-    })
-    void fizzes(int input, String expectedOutput) throws OutOfRangeException {
-        assertThat(FizzBuzz.convert(input)).isEqualTo(expectedOutput);
-    }
-
-    @ParameterizedTest
-    @CsvSource({
+            "4, 4",
             "5, Buzz",
+            "6, Fizz",
+            "7, 7",
+            // ...
+            "9, Fizz",
             "10, Buzz",
-            "20, Buzz",
-            "100, Buzz",
-    })
-    void buzzes(int input, String expectedOutput) throws OutOfRangeException {
-        assertThat(FizzBuzz.convert(input)).isEqualTo(expectedOutput);
-    }
-
-    @ParameterizedTest
-    @CsvSource({
+            "11, 11",
+            // ...
             "15, FizzBuzz",
+            // ...
+            "20, Buzz",
+            // ...
             "30, FizzBuzz",
+            // ...
             "90, FizzBuzz",
+            "98, 98",
+            "99, Fizz",
+            "100, Buzz",
+            "101, OutOfRangeException",
     })
-    void fizzBuzzes(int input, String expectedOutput) throws OutOfRangeException {
-        assertThat(FizzBuzz.convert(input)).isEqualTo(expectedOutput);
+    void converts_according_specs(int input, String expectedOutput) throws OutOfRangeException {
+        if (OutOfRangeException.class.getSimpleName().equals(expectedOutput)) {
+            assertThatThrownBy(() -> FizzBuzz.convert(input))
+                    .isInstanceOf(OutOfRangeException.class);
+        } else {
+            assertThat(FizzBuzz.convert(input)).isEqualTo(expectedOutput);
+        }
     }
 
-    @ParameterizedTest
-    @CsvSource({
-            "-1",
-            "0",
-            "101",
-    })
-    void failsWhenOutOfRange(int input) {
-        assertThatThrownBy(() -> FizzBuzz.convert(input))
-                .isInstanceOf(OutOfRangeException.class);
-    }
 }
