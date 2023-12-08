@@ -20,52 +20,46 @@ public class Pipeline {
     }
 
     private boolean runTests(Project project) {
-        boolean testsPassed;
-        if (project.hasTests()) {
-            if (ExecutionResult.SUCCESS == project.runTests()) {
-                log.info("Tests passed");
-                testsPassed = true;
-            } else {
-                log.error("Tests failed");
-                testsPassed = false;
-            }
-        } else {
+        if (!project.hasTests()) {
             log.info("No tests");
-            testsPassed = true;
+            return true;
         }
-        return testsPassed;
+        if (ExecutionResult.SUCCESS == project.runTests()) {
+            log.info("Tests passed");
+            return true;
+        }
+        log.error("Tests failed");
+        return false;
     }
 
     private boolean deploy(Project project, boolean testsPassed) {
-        boolean deploySuccessful;
-        if (testsPassed) {
-            if (ExecutionResult.SUCCESS == project.deploy()) {
-                log.info("Deployment successful");
-                deploySuccessful = true;
-            } else {
-                log.error("Deployment failed");
-                deploySuccessful = false;
-            }
-        } else {
-            deploySuccessful = false;
+        if (!testsPassed) {
+            return false;
         }
-        return deploySuccessful;
+        if (ExecutionResult.SUCCESS == project.deploy()) {
+            log.info("Deployment successful");
+            return true;
+        }
+        log.error("Deployment failed");
+        return false;
     }
 
     private void sendEmailSummary(boolean testsPassed, boolean deploySuccessful) {
-        if (config.sendEmailSummary()) {
-            log.info("Sending email");
-            if (testsPassed) {
-                if (deploySuccessful) {
-                    emailer.send("Deployment completed successfully");
-                } else {
-                    emailer.send("Deployment failed");
-                }
-            } else {
-                emailer.send("Tests failed");
-            }
-        } else {
+        if (!config.sendEmailSummary()) {
             log.info("Email disabled");
+            return;
+        }
+
+        log.info("Sending email");
+        if (!testsPassed) {
+            emailer.send("Tests failed");
+            return;
+        }
+        
+        if (deploySuccessful) {
+            emailer.send("Deployment completed successfully");
+        } else {
+            emailer.send("Deployment failed");
         }
     }
 }
