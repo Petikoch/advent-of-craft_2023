@@ -1,9 +1,6 @@
 package ci;
 
-import ci.dependencies.Config;
-import ci.dependencies.Emailer;
-import ci.dependencies.Logger;
-import ci.dependencies.Project;
+import ci.dependencies.*;
 
 public class Pipeline {
     private final Config config;
@@ -25,7 +22,7 @@ public class Pipeline {
     private boolean runTests(Project project) {
         boolean testsPassed;
         if (project.hasTests()) {
-            if ("success".equals(project.runTests())) {
+            if (ExecutionResult.SUCCESS == project.runTests()) {
                 log.info("Tests passed");
                 testsPassed = true;
             } else {
@@ -38,11 +35,11 @@ public class Pipeline {
         }
         return testsPassed;
     }
-    
+
     private boolean deploy(Project project, boolean testsPassed) {
         boolean deploySuccessful;
         if (testsPassed) {
-            if ("success".equals(project.deploy())) {
+            if (ExecutionResult.SUCCESS == project.deploy()) {
                 log.info("Deployment successful");
                 deploySuccessful = true;
             } else {
