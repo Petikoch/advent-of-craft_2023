@@ -17,9 +17,13 @@ public class Pipeline {
     }
 
     public void run(Project project) {
-        boolean testsPassed;
-        boolean deploySuccessful;
+        boolean testsPassed = runTests(project);
+        boolean deploySuccessful = deploy(project, testsPassed);
+        sendEmailSummary(testsPassed, deploySuccessful);
+    }
 
+    private boolean runTests(Project project) {
+        boolean testsPassed;
         if (project.hasTests()) {
             if ("success".equals(project.runTests())) {
                 log.info("Tests passed");
@@ -32,7 +36,11 @@ public class Pipeline {
             log.info("No tests");
             testsPassed = true;
         }
-
+        return testsPassed;
+    }
+    
+    private boolean deploy(Project project, boolean testsPassed) {
+        boolean deploySuccessful;
         if (testsPassed) {
             if ("success".equals(project.deploy())) {
                 log.info("Deployment successful");
@@ -44,7 +52,10 @@ public class Pipeline {
         } else {
             deploySuccessful = false;
         }
+        return deploySuccessful;
+    }
 
+    private void sendEmailSummary(boolean testsPassed, boolean deploySuccessful) {
         if (config.sendEmailSummary()) {
             log.info("Sending email");
             if (testsPassed) {
